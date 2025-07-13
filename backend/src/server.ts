@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { apiRouter, livekitRouter } from './routes/index.js';
+import { AuthStrategyService } from './services/index.js';
 import chalk from 'chalk';
 import {
 	LIVEKIT_URL,
@@ -35,7 +36,10 @@ import {
 } from './config.js';
 
 const createApp = () => {
-	const app = express();
+        const app = express();
+
+        const authStrategyService = AuthStrategyService.getInstance();
+        authStrategyService.configure(app);
 
 	// Enable CORS support
 	if (SERVER_CORS_ORIGIN) {

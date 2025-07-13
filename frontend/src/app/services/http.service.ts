@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { RecordingInfo } from 'openvidu-components-angular';
 import { lastValueFrom } from 'rxjs';
 import { StorageAppService } from '@services/storage.service';
+import { ConfigService } from '@services/config.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,10 +12,11 @@ export class HttpService {
 	// private baseHref: string;
 	private pathPrefix = 'call/api';
 
-	constructor(
-		private http: HttpClient,
-		private storageService: StorageAppService
-	) {
+        constructor(
+                private http: HttpClient,
+                private storageService: StorageAppService,
+                private configService: ConfigService
+        ) {
 		// this.baseHref = '/' + (!!window.location.pathname.split('/')[1] ? window.location.pathname.split('/')[1] + '/' : '');
 	}
 
@@ -22,14 +24,16 @@ export class HttpService {
 		const headers = new HttpHeaders({
 			'Content-Type': 'application/json'
 		});
-		const userCredentials = this.storageService.getParticipantCredentials();
+                if (this.configService.getAuthMode() === 'basic') {
+                        const userCredentials = this.storageService.getParticipantCredentials();
 
-		if (userCredentials?.username && userCredentials?.password) {
-			return headers.append(
-				'Authorization',
-				`Basic ${btoa(`${userCredentials.username}:${userCredentials.password}`)}`
-			);
-		}
+                        if (userCredentials?.username && userCredentials?.password) {
+                                return headers.append(
+                                        'Authorization',
+                                        `Basic ${btoa(`${userCredentials.username}:${userCredentials.password}`)}`
+                                );
+                        }
+                }
 
 		return headers;
 	}
@@ -38,18 +42,20 @@ export class HttpService {
 		const headers = new HttpHeaders({
 			'Content-Type': 'application/json'
 		});
-		const adminCredentials = this.storageService.getAdminCredentials();
+                if (this.configService.getAuthMode() === 'basic') {
+                        const adminCredentials = this.storageService.getAdminCredentials();
 
-		if (!adminCredentials) {
-			console.error('Admin credentials not found');
-			return headers;
-		}
+                        if (!adminCredentials) {
+                                console.error('Admin credentials not found');
+                                return headers;
+                        }
 
-		const { username, password } = adminCredentials;
+                        const { username, password } = adminCredentials;
 
-		if (username && password) {
-			return headers.set('Authorization', `Basic ${btoa(`${username}:${password}`)}`);
-		}
+                        if (username && password) {
+                                return headers.set('Authorization', `Basic ${btoa(`${username}:${password}`)}`);
+                        }
+                }
 
 		return headers;
 	}

@@ -16,6 +16,20 @@ export const CALL_SECRET = process.env.CALL_SECRET || 'user';
 export const CALL_ADMIN_USER = process.env.CALL_ADMIN_USER || 'admin';
 export const CALL_ADMIN_SECRET = process.env.CALL_ADMIN_SECRET || 'admin';
 
+// Authentication configuration
+export const AUTH_MODE = process.env.AUTH_MODE || 'basic';
+export const OIDC_ISSUER_URL = process.env.OIDC_ISSUER_URL || '';
+export const OIDC_CLIENT_ID = process.env.OIDC_CLIENT_ID || '';
+export const OIDC_CLIENT_SECRET = process.env.OIDC_CLIENT_SECRET || '';
+export const OIDC_CALLBACK_URL = process.env.OIDC_CALLBACK_URL || '';
+export const OIDC_AUTH_URL = process.env.OIDC_AUTH_URL || '';
+export const OIDC_TOKEN_URL = process.env.OIDC_TOKEN_URL || '';
+export const OIDC_USERINFO_URL = process.env.OIDC_USERINFO_URL || '';
+export const SAML_ENTRY_POINT = process.env.SAML_ENTRY_POINT || '';
+export const SAML_ISSUER = process.env.SAML_ISSUER || '';
+export const SAML_CALLBACK_URL = process.env.SAML_CALLBACK_URL || '';
+export const SAML_CERT = process.env.SAML_CERT || '';
+
 /**
  * Log levels configuration: error, warn, info, verbose, debug, silly
  *

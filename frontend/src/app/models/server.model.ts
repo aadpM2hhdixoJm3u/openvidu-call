@@ -1,4 +1,4 @@
 export interface ServerConfigurationResponse {
-	isPrivateAccess: boolean;
-
+        isPrivateAccess: boolean;
+        authMode?: string;
 }
