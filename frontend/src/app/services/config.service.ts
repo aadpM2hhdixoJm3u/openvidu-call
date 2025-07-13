@@ -25,16 +25,24 @@ export class ConfigService {
 		} catch (error) {
 			console.error('Failed to load configuration:', error);
 			// Handle the error as needed, e.g., set default config or notify the user
-			this.config = { isPrivateAccess: true }; // Default value in case of error
+                        this.config = { isPrivateAccess: true, authMode: 'basic' }; // Default value in case of error
 		}
 	}
 
-	isPrivateAccess(): boolean {
+        isPrivateAccess(): boolean {
 		// Ensure configuration is loaded before accessing it
 		if (!this.initialization) {
 			throw new Error('ConfigService not initialized. Call initialize() before accessing config.');
 		}
 
-		return this.config?.isPrivateAccess ?? true;
-	}
+                return this.config?.isPrivateAccess ?? true;
+        }
+
+        getAuthMode(): string {
+                if (!this.initialization) {
+                        throw new Error('ConfigService not initialized. Call initialize() before accessing config.');
+                }
+
+                return this.config?.authMode ?? 'basic';
+        }
 }
