@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import basicAuth from 'express-basic-auth';
-import { CALL_ADMIN_SECRET, CALL_ADMIN_USER, CALL_PRIVATE_ACCESS, CALL_SECRET, CALL_USER } from '../config.js';
+import { AUTH_MODE, CALL_ADMIN_SECRET, CALL_ADMIN_USER, CALL_PRIVATE_ACCESS, CALL_SECRET, CALL_USER } from '../config.js';
 
 // Configure basic auth middleware for user and admin access
 export const withAdminAndUserBasicAuth = (req: Request, res: Response, next: NextFunction) => {
@@ -61,15 +61,19 @@ export class AuthService {
 		return AuthService.instance;
 	}
 
-	authenticateUser(username: string, password: string): boolean {
-		if (CALL_PRIVATE_ACCESS === 'true') {
-			return username === CALL_USER && password === CALL_SECRET;
-		}
+        authenticateUser(username: string, password: string): boolean {
+                if (AUTH_MODE === 'basic' && CALL_PRIVATE_ACCESS === 'true') {
+                        return username === CALL_USER && password === CALL_SECRET;
+                }
 
-		return true;
-	}
+                return true;
+        }
 
-	authenticateAdmin(username: string, password: string): boolean {
-		return username === CALL_ADMIN_USER && password === CALL_ADMIN_SECRET;
-	}
+        authenticateAdmin(username: string, password: string): boolean {
+                if (AUTH_MODE === 'basic') {
+                        return username === CALL_ADMIN_USER && password === CALL_ADMIN_SECRET;
+                }
+
+                return true;
+        }
 }

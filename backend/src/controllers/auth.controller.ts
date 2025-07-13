@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import passport from 'passport';
 import { AuthService } from '../services/auth.service.js';
 import { LoggerService } from '../services/logger.service.js';
 
@@ -49,5 +50,13 @@ export const adminLogin = (req: Request, res: Response) => {
 };
 
 export const adminLogout = (req: Request, res: Response) => {
-	return res.status(200).json({ message: 'Logout successful' });
+        return res.status(200).json({ message: 'Logout successful' });
 };
+
+export const oidcCallback = passport.authenticate('openidconnect', {
+        session: false
+});
+
+export const samlCallback = passport.authenticate('saml', {
+        session: false
+});
